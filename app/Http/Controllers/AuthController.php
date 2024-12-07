@@ -12,4 +12,9 @@ class AuthController extends Controller
         $todos = Todo::all();
         return view('welcome', compact('todos'));
     }
+
+    public function failed()
+    {
+        return response()->json(['error' => 'please log in'], 401);
+    }
 }
