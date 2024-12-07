@@ -11,10 +11,8 @@ class Todo extends Model
         'description',
         'priority',
         'is_completed',
-        'user_id',  // Ensure the user_id is included as it is a foreign key
+        'user_id',  
     ];
-
-    // Define the relationship to the User model
     public function user()
     {
         return $this->belongsTo(User::class);
