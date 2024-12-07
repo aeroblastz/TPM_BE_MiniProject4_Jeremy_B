@@ -13,11 +13,11 @@ class ApiAuthController extends Controller
 {
     public function Register(Request $request)
     {
-        $data = [
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=>$request->password
-        ];
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
         try{
             $user = User::create([
                 'name' => $request->name,
@@ -45,10 +45,9 @@ class ApiAuthController extends Controller
         }
 
         $user = Auth::user();
-
-        if (!$user instanceof \App\Models\User)
+        if (!$user instanceof User)
         {
-            return response()->json(['error' => 'not valid user'], 401);
+            return response()->json(['error' => 'invalid user'], 500);
         }
         $token = $user->createToken('authToken')->accessToken;
 
